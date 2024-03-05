@@ -9,6 +9,7 @@ body {
 
 #react-tiny-popover-container {
   z-index: 1000 !important;
+  overflow: hidden !important;
 }
 .react-responsive-modal-modal {
   margin: 0 !important;

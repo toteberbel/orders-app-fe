@@ -2,16 +2,16 @@
 
 .product {
   display: grid;
-  grid-template-columns: 150px min-content auto;
-  gap: 24px;
+  grid-template-columns: 120px min-content auto;
+  gap: 5px;
 
   &__actions {
     display: flex;
     gap: 8px;
     align-items: center;
     justify-content: flex-end;
-    margin-right: 8px;
-    
+    margin: 0 8px;
+
     // if viewport width is greater than 600px set background black
     @media (min-width: 600px) {
       justify-self: flex-start;
@@ -19,8 +19,38 @@
   }
 
   &__quantity-field {
-    display: grid;
-    gap: 5px;
-    grid-template-columns: 60px 1fr;
+    width: 140px;
+    position: relative;
+    .dg-select-field {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .dg-text-input {
+      padding-right: 65px;
+    }
+    .dg-dropdown-container {
+      border: none !important;
+    }
+    .dg-dropdown-input {
+      padding-left: 5px;
+    }
   }
+
+  /* Remove the arrows for number inputs */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+.dg-dropdown-menu {
+  border: none !important;
+  width: unset !important;
+  min-width: 80px;
+}
+#react-tiny-popover-container {
+  border: 1px solid $color-gray-borders !important;
+  border-radius: 12px;
+  top: 5px;
 }

@@ -200,7 +200,7 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
   };
 
   return (
-    <BaseModal onClose={handleClose} size="xlarge">
+    <BaseModal onClose={handleClose} size="xlarge" noPadding>
       <div className={mainClass}>
         <form onSubmit={onSave}>
           <TextField
