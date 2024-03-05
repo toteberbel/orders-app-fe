@@ -1,0 +1,103 @@
+@import "../../assets/variables.scss";
+
+.dg-dropdown-container {
+  border: 1px solid #ccc;
+  position: relative;
+  border-radius: 8px;
+  font-size: $base-font-size;
+  display: flex;
+  align-items: center;
+
+  &-error {
+    border-color: $color-distructive;
+  }
+
+  .dg-dropdown-icon {
+    svg {
+      position: absolute;
+      width: $base-font-size;
+      color: $color-gray;
+      top: 0.35rem;
+      left: 13px;
+    }
+  }
+
+  .dg-dropdown-input {
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: space-between;
+    user-select: none;
+    width: 100%;
+    svg {
+      width: $base-font-size;
+      color: $color-gray;
+      cursor: pointer;
+    }
+    &-icon {
+      padding-left: 36px;
+    }
+    span {
+      display: block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .dg-dropdown-placeholder {
+    font-size: $base-font-size;
+    color: $color-gray;
+  }
+
+  &-pill {
+    background-color: $color-gray-darken;
+    border-radius: 20px;
+    border: 1px solid transparent;
+  }
+}
+.dg-dropdown-menu {
+  max-width: 250px;
+  max-height: 150px;
+  overflow-x: hidden;
+  width: 100%;
+  border: 1px solid $color-gray-borders;
+  border-radius: 8px;
+  background-color: $color-white;
+  z-index: 99;
+  box-shadow: 0px 12px 16px rgba(0, 0, 0, 0.04);
+  padding: 5px;
+  &__empty {
+    text-align: center;
+    color: $color-gray;
+  }
+  .dg-dropdown-item {
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    &__distructive {
+      color: $color-distructive;
+    }
+    font-size: $base-font-size;
+    span {
+      white-space: nowrap; /* Prevent text from wrapping to the next line */
+      overflow: hidden; /* Hide any content that overflows the container */
+      text-overflow: ellipsis;
+      width: 100%;
+      display: block;
+    }
+  }
+
+  .dg-dropdown-item:hover {
+    background-color: $color-gray-light;
+  }
+
+  .dg-dropdown-item.selected {
+    font-weight: 500;
+  }
+}
+
+.react-tiny-popover-container {
+  z-index: 9999;
+}

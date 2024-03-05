@@ -1,0 +1,106 @@
+@import "../../assets/variables.scss";
+
+.dg-icon-button {
+  background-color: $color-primary;
+  border: none;
+  color: $color-black;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 100px;
+  font-weight: 300;
+  white-space: nowrap;
+
+  font-size: $base-font-size;
+
+  &:focus {
+    outline: none !important;
+  }
+
+  font-family: "Poppins";
+  transition: all ease 0.15s;
+
+  &-large {
+    padding: 7px 16px;
+  }
+
+  &-primary {
+    background-color: $color-primary;
+    &:hover:not([disabled]) {
+      background-color: $color-primary-dark;
+    }
+    &:disabled {
+      color: $color-white;
+    }
+  }
+
+  &-secondary {
+    background-color: $color-white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    &:hover:not([disabled]) {
+      border: 1px solid #161816;
+    }
+    &:disabled {
+      color: $color-gray-disabled;
+    }
+  }
+
+  &-tertiary {
+    background-color: $color-white;
+    border: 1px solid transparent;
+    &:hover:not([disabled]) {
+      background-color: $color-gray-light;
+    }
+    &:disabled {
+      color: $color-gray-disabled;
+    }
+  }
+
+  &-accent {
+    background-color: $color-primary-accent;
+    color: $color-white;
+
+    &:hover:not([disabled]) {
+      background-color: $color-primary-accent-hover;
+    }
+    &:disabled {
+      background-color: $color-primary-accent-disabled;
+    }
+  }
+
+  &-distructive {
+    background-color: $color-distructive;
+    color: $color-white;
+
+    &:hover:not([disabled]) {
+      background-color: $color-distructive-hover;
+    }
+    &:disabled {
+      background-color: $color-distructive-disabled;
+    }
+  }
+
+  &-darken {
+    background-color: $color-gray-light;
+    border: 1px solid transparent;
+    &:hover:not([disabled]) {
+      border-color: $color-gray-borders;
+    }
+    &:disabled {
+      color: $color-gray-disabled;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+  padding: 2px 8px;
+  svg {
+    width: $base-font-size;
+  }
+}

@@ -1,0 +1,89 @@
+@import "../../assets/variables.scss";
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.dg-base-modal {
+  border-radius: 8px;
+  width: fit-content;
+  max-width: 90vw !important;
+  &__no-overflow {
+    overflow-y: unset !important;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    width: $base-font-size;
+  }
+
+  @media (max-width: 450px) {
+    width: 90vw;
+  }
+
+  @media (min-width: 451px) {
+    &__small {
+      width: 400px;
+    }
+    &__medium {
+      width: 500px;
+    }
+    &__large {
+      width: 700px;
+    }
+
+    &__xlarge {
+      width: 900px;
+    }
+  }
+
+  &__flex {
+    width: unset !important;
+    height: unset !important;
+    max-width: unset !important;
+  }
+
+  &__from-bottom {
+    vertical-align: bottom !important;
+    margin: 0 !important;
+    width: 100vw !important;
+    max-width: unset !important;
+    border-radius: 8px 8px 0 0;
+
+    // bottom: -12vh !important;
+    transition: all 100ms linear;
+    &-open {
+      bottom: 0 !important;
+    }
+  }
+
+  &__from-left {
+    transform: translateX(-100%);
+    vertical-align: bottom !important;
+    margin: 0 !important;
+    min-width: 200px !important;
+    width: unset !important;
+    // max-width: unset !important;
+    height: 100vh !important;
+    border-radius: 0;
+  }
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.dg-base-modal-container__left {
+  text-align: left !important;
+}

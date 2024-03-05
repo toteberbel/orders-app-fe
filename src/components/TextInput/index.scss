@@ -1,0 +1,44 @@
+@import '../../assets/variables.scss';
+
+.dg-text-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid $color-gray-borders;
+    border-radius: 8px;
+    font-size: $base-font-size;
+    line-height: 130%;
+    font-family: "Poppins";
+
+    max-height: 38.3px;
+
+    &::placeholder {
+        color: $color-gray;
+    }
+
+    &::-webkit-input-placeholder {
+        /* Edge */
+        color: $color-gray-placeholder;
+        font-size: $base-font-size;
+    }
+
+    &::-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: $color-gray-placeholder;
+        font-size: $base-font-size;
+    }
+
+    &:focus-visible,
+    &:hover {
+        outline: none;
+        border-color: #989898; //remove hardcoded. Border colors when input is focused are missing
+    }
+    transition: all 100ms ease-in;
+
+    &-error {
+        border-color: $color-distructive;
+    }
+    &-error:focus-visible {
+        border-color: $color-distructive;
+    }
+
+}

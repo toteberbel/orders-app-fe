@@ -1,0 +1,61 @@
+@import "../../assets/variables.scss";
+
+.dg-select-field {
+  display: flex;
+  flex-direction: column;
+  .dg-field-input {
+    &--icon-before {
+      select {
+        padding-left: 36px;
+      }
+    }
+  }
+
+  label {
+    margin-bottom: 4px;
+    font-weight: 300;
+    font-size: $base-font-size;
+  }
+
+  span {
+    // font-size: $small-font-size;
+    display: block;
+    // margin-top: 4px;
+  }
+
+  &-hint {
+    color: $color-gray;
+  }
+  &-error {
+    color: $color-distructive;
+    font-size: $small-font-size;
+    margin-top: 5px;
+  }
+
+  .dg-field-input {
+    svg {
+      position: absolute;
+      width: 1rem;
+      color: $color-gray;
+    }
+
+    &--icon-before {
+      position: relative;
+      display: flex;
+      align-items: center;
+      svg {
+        top: 0.5rem;
+        left: 13px;
+      }
+    }
+    &--icon-after {
+      position: relative;
+      display: flex;
+      align-items: center;
+      svg {
+        top: 0.35rem;
+        right: 13px;
+      }
+    }
+  }
+}

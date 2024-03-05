@@ -1,0 +1,16 @@
+.home {
+  overflow: hidden;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: calc(100vh - 70px) 70px;
+
+  &__content {
+    overflow: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    // justify-content: center;
+  }
+}

@@ -1,0 +1,49 @@
+@import "../../assets/variables.scss";
+
+.new-order {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__error{
+    text-align: center;
+    margin-top: 20px;
+    color: $color-warning;
+  }
+
+  &__products {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-height: 35vh;
+      overflow: auto;
+      ::-webkit-scrollbar {
+        width: 10px; /* Set your desired width */
+      }
+      padding-bottom: 5px;
+    }
+
+    &__header {
+      display: grid;
+      grid-template-columns: 150px 80px 50px;
+      gap: 24px;
+      font-size: $small-font-size;
+      color: $color-gray;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 24px;
+  }
+}
