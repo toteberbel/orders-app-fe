@@ -10,10 +10,11 @@
     gap: 8px;
     align-items: center;
     justify-content: flex-end;
-    margin: 0 8px;
-
+    margin: 0;
+    
     // if viewport width is greater than 600px set background black
     @media (min-width: 600px) {
+      margin: 0 8px;
       justify-self: flex-start;
     }
   }
