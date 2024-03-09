@@ -254,6 +254,7 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
               <Button
                 iconBefore={Plus}
                 variant="accent"
+                disabled={loading}
                 onClick={onAddNewProdcut}
               >
                 Add product

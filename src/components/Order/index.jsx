@@ -34,7 +34,7 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
   );
 
   return (
-    <div className={mainClass}>
+    <div className={mainClass + " animate__animated animate__fadeIn"}>
       <div
         className={`${mainClass}__header ${
           loading ? mainClass + "__loading" : ""

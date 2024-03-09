@@ -26,6 +26,10 @@
       padding: 24px;
       font-weight: 600;
       cursor: pointer;
+      &:hover {
+        opacity: 0.5;
+      }
+      transition: all 200ms ease;
     }
   }
 
@@ -45,6 +49,10 @@
     gap: 5px;
     line-height: 2;
     color: #fff;
+    transition: all 200ms ease;
     background-color: $color-primary-accent;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }

@@ -7,6 +7,8 @@ import { environment } from "../../../config/env";
 import Order from "../../components/Order";
 import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner";
+import { FileText } from "react-feather";
+import "animate.css";
 
 const mainClass = "home";
 
@@ -108,11 +110,18 @@ const Home = () => {
         />
       )}
       <div className={mainClass + "__content"}>
-        {loading && <Spinner />}
+        {loading && (
+          <div>
+            <Spinner />
+          </div>
+        )}
 
         {!loading && !ordersByDelivery.length ? (
-          <div className={mainClass + "__empty"}>
-            There are no orders created yet.
+          <div
+            className={mainClass + "__empty animate__animated animate__fadeIn"}
+          >
+            <FileText />
+            <span> There are no orders created yet.</span>
           </div>
         ) : null}
 
