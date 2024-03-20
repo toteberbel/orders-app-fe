@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner";
 import { FileText } from "react-feather";
 import "animate.css";
+import TextField from "../../components/TextField";
 
 const mainClass = "home";
 
@@ -17,6 +18,8 @@ const Home = () => {
   const [deliveries, setDeliveries] = useState([]);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [search, setSearch] = useState("");
 
   const [orderToEdit, setOrderToEdit] = useState(null);
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);
@@ -63,14 +66,6 @@ const Home = () => {
     setLoading(false);
   };
 
-  const ordersByDelivery = useMemo(() => {
-    if (!deliveries.length || !orders.length) return [];
-
-    return orders.filter(
-      (order) => order.delivery.id === selectedDelivery.value
-    );
-  }, [orders, deliveries, selectedDelivery]);
-
   const handleOrderToEdit = (order) => {
     const items = {};
     order.order_items.forEach((item) => {
@@ -92,6 +87,15 @@ const Home = () => {
     console.log(payload);
     setOrderToEdit(payload);
   };
+
+  const filteredOrders = useMemo(() => {
+    if (!deliveries.length || !orders.length) return [];
+    return orders.filter(
+      (order) =>
+        order.delivery.id === selectedDelivery.value &&
+        order.customer_name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [search, orders, deliveries, selectedDelivery]);
 
   return (
     <div className={mainClass}>
@@ -116,7 +120,7 @@ const Home = () => {
           </div>
         )}
 
-        {!loading && !ordersByDelivery.length ? (
+        {!loading && !filteredOrders.length ? (
           <div
             className={mainClass + "__empty animate__animated animate__fadeIn"}
           >
@@ -125,7 +129,19 @@ const Home = () => {
           </div>
         ) : null}
 
-        {ordersByDelivery.map((order) => (
+        {!loading && orders.length ? (
+          <div className={mainClass + "__search"}>
+            <TextField
+              label="Buscar por cliente"
+              inputProps={{
+                value: search,
+                onChange: (e) => setSearch(e.target.value),
+              }}
+            />
+          </div>
+        ) : null}
+
+        {filteredOrders.map((order) => (
           <Order
             order={order}
             key={order.id}
