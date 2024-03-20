@@ -121,7 +121,7 @@ const Home = () => {
             className={mainClass + "__empty animate__animated animate__fadeIn"}
           >
             <FileText />
-            <span> There are no orders created yet.</span>
+            <span> No hay ordenes creadas aún.</span>
           </div>
         ) : null}
 

@@ -17,16 +17,8 @@ const units = [
     value: "gr",
   },
   {
-    label: "lt",
-    value: "lt",
-  },
-  {
-    label: "ml",
-    value: "ml",
-  },
-  {
-    label: "unit",
-    value: "unit",
+    label: "unidad",
+    value: "unidad",
   },
 ];
 

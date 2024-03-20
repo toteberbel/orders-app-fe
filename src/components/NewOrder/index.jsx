@@ -120,15 +120,15 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
     const validationErrors = {};
 
     if (!order.customerName) {
-      validationErrors.customerName = "Customer name is required";
+      validationErrors.customerName = "Debes añadir el nombre del cliente";
     }
 
     if (!order.delivery) {
-      validationErrors.delivery = "Delivery is required";
+      validationErrors.delivery = "Es necesario añadir un repartidor";
     }
 
     if (Object.keys(order.products).length === 0 && !order.notes) {
-      validationErrors.empty = "At least one product or one note is required";
+      validationErrors.empty = "Al menos un producto o nota es requerido";
     }
 
     const productWithZeroQuantity = Object.keys(order.products).some(
@@ -136,8 +136,7 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
     );
 
     if (productWithZeroQuantity) {
-      validationErrors.invalidProduct =
-        "Product quantity should be greater than 0";
+      validationErrors.invalidProduct = "La cantidad debe ser mayor a 0";
     }
 
     handleError(validationErrors);
@@ -180,7 +179,7 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
         products
       );
 
-      toast.success("Order saved successfully");
+      toast.success("Orden guardada correctamente");
       onCreate(selecteDelivery);
       handleClose();
     } catch (error) {
@@ -204,18 +203,18 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
       <div className={mainClass}>
         <form onSubmit={onSave}>
           <TextField
-            label="Customer name"
+            label="Cliente"
             inputProps={{
-              placeholder: "Enter customer name",
+              placeholder: "Ingresa nombre del cliente",
               onChange: (e) => onChange(e.target.value, "customerName"),
               value: order.customerName,
             }}
             error={errors.customerName}
           />
           <SelectField
-            label={"Delivery"}
+            label={"Repartidor"}
             inputProps={{
-              placeholder: "Select delivery",
+              placeholder: "Selecciona repartidor",
               options: deliveries,
               onChange: (e) => onChange(e.value, "delivery"),
               name: "",
@@ -228,8 +227,8 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
             {Object.keys(order.products).length > 0 && (
               <>
                 <div className={mainClass + "__products__header"}>
-                  <div>Type</div>
-                  <div>Quantity</div>
+                  <div>Tipo</div>
+                  <div>Cantidad</div>
                 </div>
                 <div className={mainClass + "__products__list"}>
                   {productsToRender.map((product) => (
@@ -257,15 +256,15 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
                 disabled={loading}
                 onClick={onAddNewProdcut}
               >
-                Add product
+                Añadir productos
               </Button>
             </div>
           </div>
 
           <TextAreaField
-            label={"Notes"}
+            label={"Notas"}
             inputProps={{
-              placeholder: "Add notes...",
+              placeholder: "Añadir notas...",
               onChange: (e) => onChange(e.target.value, "notes"),
               value: order.notes,
             }}
@@ -278,7 +277,7 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
 
         <div className={mainClass + "__actions"}>
           <Button disabled={loading} variant="secondary" onClick={handleClose}>
-            Cancel
+            Cancelar
           </Button>
           {showSaveButton && (
             <Button
@@ -287,7 +286,7 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
               iconBefore={Save}
               variant="accent"
             >
-              Save
+              Guardar
             </Button>
           )}
         </div>

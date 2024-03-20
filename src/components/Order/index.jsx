@@ -12,7 +12,7 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
   const MENUS = useMemo(
     () => [
       {
-        label: "Edit",
+        label: "Editar",
         icon: Edit3,
         onClick: () => {
           setShowMenu(false);
@@ -20,7 +20,7 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
         },
       },
       {
-        label: "Delete",
+        label: "Eliminar",
         icon: Trash2,
         onClick: () => {
           setShowMenu(false);
@@ -64,8 +64,8 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
         {order.order_items?.length > 0 && (
           <div className={mainClass + "__products"}>
             <div className={`${mainClass}__products__header `}>
-              <div>Quantity</div>
-              <div>Type</div>
+              <div>Cantidad</div>
+              <div>Tipo</div>
             </div>
             {order.order_items.map((product) => (
               <div key={product.id}>
@@ -80,7 +80,7 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
 
         {order.notes && (
           <div className={mainClass + "__notes"}>
-            <span>Notes:</span>
+            <span>Notas:</span>
             <p>{order.notes}</p>
           </div>
         )}
