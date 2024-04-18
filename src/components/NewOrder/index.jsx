@@ -187,7 +187,7 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
 
   const onSave = async (e) => {
     if (e) e.preventDefault();
-    console.log(order);
+
     const { isValid } = validateOrder();
     if (!isValid) return;
 

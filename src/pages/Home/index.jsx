@@ -97,6 +97,7 @@ const Home = () => {
       delivery: order.delivery.id,
       notes: order.notes,
       products: items,
+      deliveryDays: order.days_to_be_delivered,
     };
     setOrderToEdit(payload);
   };
