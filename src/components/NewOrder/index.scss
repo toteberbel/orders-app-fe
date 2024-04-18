@@ -23,8 +23,8 @@
     &__list {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      max-height: 35vh;
+      gap: 8px;
+      max-height: 25vh;
       overflow: auto;
       ::-webkit-scrollbar {
         width: 10px; /* Set your desired width */
