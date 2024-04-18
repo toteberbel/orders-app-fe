@@ -11,6 +11,44 @@ import { environment } from "../../../config/env";
 import TextAreaField from "../TextAreaField";
 import toast from "react-hot-toast";
 
+export const DELIVERY_DAYS = [
+  {
+    label: "LUN",
+    value: "lunes",
+    full: "lunes",
+  },
+  {
+    label: "MAR",
+    value: "martes",
+    full: "martes",
+  },
+  {
+    label: "MIE",
+    value: "miercoles",
+    full: "miercoles",
+  },
+  {
+    label: "JUE",
+    value: "jueves",
+    full: "jueves",
+  },
+  {
+    label: "VIE",
+    value: "viernes",
+    full: "viernes",
+  },
+  {
+    label: "SAB",
+    value: "sabado",
+    full: "sabado",
+  },
+  {
+    label: "DOM",
+    value: "domingo",
+    full: "domingo",
+  },
+];
+
 const mainClass = "new-order";
 
 const initialValues = {
@@ -18,6 +56,7 @@ const initialValues = {
   delivery: "",
   notes: "",
   products: {},
+  deliveryDays: DELIVERY_DAYS.map((day) => day.value),
 };
 
 const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
@@ -148,7 +187,7 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
 
   const onSave = async (e) => {
     if (e) e.preventDefault();
-
+    console.log(order);
     const { isValid } = validateOrder();
     if (!isValid) return;
 
@@ -165,6 +204,10 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
       delivery_id: order.delivery,
       notes: order.notes,
       customer_name: order.customerName,
+      days_to_be_delivered:
+        order.deliveryDays.length === 0
+          ? DELIVERY_DAYS.map((day) => day.value)
+          : order.deliveryDays,
     };
 
     try {
@@ -197,6 +240,25 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
       setErrors({});
     }, 3000);
   };
+
+  const handleDays = (day) => {
+    const days = [...order.deliveryDays];
+    const index = days.indexOf(day);
+
+    if (index === -1) {
+      days.push(day);
+    } else {
+      days.splice(index, 1);
+    }
+
+    setOrder({
+      ...order,
+      deliveryDays: days,
+    });
+    setShowSaveButton(true);
+  };
+
+  console.log(order.deliveryDays, DELIVERY_DAYS.length);
 
   return (
     <BaseModal onClose={handleClose} size="xlarge" noPadding>
@@ -259,6 +321,28 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
                 Añadir productos
               </Button>
             </div>
+          </div>
+
+          <div className={mainClass + "__days"}>
+            <label>Dias de entrega</label>
+            <div>
+              {DELIVERY_DAYS.map((day) => (
+                <Button
+                  onClick={() => handleDays(day.value)}
+                  key={day.value}
+                  variant={
+                    order.deliveryDays.includes(day.value)
+                      ? "accent"
+                      : "secondary"
+                  }
+                >
+                  {day.label}
+                </Button>
+              ))}
+            </div>
+            {order.deliveryDays.length === DELIVERY_DAYS.length && (
+              <small> Todos los días </small>
+            )}
           </div>
 
           <TextAreaField

@@ -72,4 +72,29 @@
   &__loading {
     background-color: $color-gray-disabled;
   }
+
+  &__days {
+    label {
+      margin-bottom: 4px;
+      font-weight: 600;
+      border-bottom: none !important;
+      color: $color-gray;
+      font-size: $small-font-size;
+    }
+
+    small {
+      font-size: 12px;
+      display: block;
+      flex: 1;
+    }
+    & > div {
+      display: flex;
+      padding: 10px 0;
+      gap: 5px;
+      button {
+        padding: 3px 8px;
+        font-size: 12px;
+      }
+    }
+  }
 }

@@ -46,9 +46,7 @@
   &-secondary {
     background-color: $color-white;
     border: 1px solid rgba(0, 0, 0, 0.15);
-    &:hover:not([disabled]) {
-      border: 1px solid #161816;
-    }
+
     &:disabled {
       color: $color-gray-disabled;
     }
@@ -69,9 +67,9 @@
     background-color: $color-primary-accent;
     color: $color-white;
 
-    &:hover:not([disabled]) {
-      background-color: $color-primary-accent-hover;
-    }
+    // &:hover:not([disabled]) {
+    //   background-color: $color-primary-accent-hover;
+    // }
     &:disabled {
       background-color: $color-primary-accent-disabled;
     }

@@ -1,8 +1,10 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import "./index.scss";
 import { Edit3, MoreHorizontal, Trash2 } from "react-feather";
 import { Popover } from "react-tiny-popover";
 import BasicMenuList from "../BasicMenuList";
+import Button from "../Button";
+import { DELIVERY_DAYS } from "../NewOrder";
 
 const mainClass = "order";
 
@@ -32,6 +34,11 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
 
     [order]
   );
+
+  const getDay = useCallback((day) => {
+    const fullDay = DELIVERY_DAYS.find((d) => d.value === day);
+    return fullDay.label;
+  }, []);
 
   return (
     <div className={mainClass + " animate__animated animate__fadeIn"}>
@@ -77,6 +84,17 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
             ))}
           </div>
         )}
+
+        <div className={mainClass + "__days"}>
+          <label>Dias de entrega</label>
+          <div>
+            {order.days_to_be_delivered.map((day) => (
+              <Button onClick={() => {}} key={day} variant={"accent"}>
+                {getDay(day)}
+              </Button>
+            ))}
+          </div>
+        </div>
 
         {order.notes && (
           <div className={mainClass + "__notes"}>

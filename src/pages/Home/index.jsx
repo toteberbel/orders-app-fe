@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import TabBar from "../../components/TabBar";
 import "./index.scss";
-import NewOrder from "../../components/NewOrder";
+import NewOrder, { DELIVERY_DAYS } from "../../components/NewOrder";
 import axios from "axios";
 import { environment } from "../../../config/env";
 import Order from "../../components/Order";
@@ -10,8 +10,20 @@ import Spinner from "../../components/Spinner";
 import { FileText } from "react-feather";
 import "animate.css";
 import TextField from "../../components/TextField";
+import SelectField from "../../components/SelectField";
 
 const mainClass = "home";
+
+const DAYS_OPTIONS = [
+  {
+    label: "Todos los días",
+    full: "Todos los días",
+    value: "all",
+  },
+  ...DELIVERY_DAYS,
+];
+const today = new Date().toLocaleDateString(undefined, { weekday: "long" });
+const todayOption = DAYS_OPTIONS.find((day) => day.value === today);
 
 const Home = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(null);
@@ -23,6 +35,8 @@ const Home = () => {
 
   const [orderToEdit, setOrderToEdit] = useState(null);
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);
+
+  const [daysFilter, setDaysFilter] = useState(todayOption);
 
   useEffect(() => {
     getDeliveries();
@@ -84,18 +98,23 @@ const Home = () => {
       notes: order.notes,
       products: items,
     };
-    console.log(payload);
     setOrderToEdit(payload);
   };
 
   const filteredOrders = useMemo(() => {
     if (!deliveries.length || !orders.length) return [];
+    const days =
+      daysFilter.value === "all"
+        ? DELIVERY_DAYS.map((day) => day.value)
+        : [daysFilter.value];
+
     return orders.filter(
       (order) =>
         order.delivery.id === selectedDelivery.value &&
-        order.customer_name.toLowerCase().includes(search.toLowerCase())
+        order.customer_name.toLowerCase().includes(search.toLowerCase()) &&
+        order.days_to_be_delivered.some((d) => days.includes(d))
     );
-  }, [search, orders, deliveries, selectedDelivery]);
+  }, [search, orders, deliveries, selectedDelivery, daysFilter]);
 
   return (
     <div className={mainClass}>
@@ -138,6 +157,18 @@ const Home = () => {
                 onChange: (e) => setSearch(e.target.value),
               }}
             />
+
+            <div className={mainClass + "__days"}>
+              <SelectField
+                label={"Filtrar por día de entrega"}
+                inputProps={{
+                  options: DAYS_OPTIONS,
+                  onChange: (e) => setDaysFilter(e),
+                  name: "",
+                  value: daysFilter,
+                }}
+              />
+            </div>
           </div>
         ) : null}
 
@@ -151,6 +182,13 @@ const Home = () => {
           />
         ))}
       </div>
+      <div className={mainClass + "__current-day"}>
+        <p>
+          Pedidos para {daysFilter.value === "all" ? "" : "el día"}{" "}
+          <span> {daysFilter.full} </span>
+        </p>
+      </div>
+
       <TabBar
         selectedTab={selectedDelivery}
         handleSelectedTab={setSelectedDelivery}

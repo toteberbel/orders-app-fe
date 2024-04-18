@@ -8,7 +8,7 @@
     gap: 16px;
   }
 
-  &__error{
+  &__error {
     text-align: center;
     margin-top: 20px;
     color: $color-warning;
@@ -38,6 +38,28 @@
       gap: 5px;
       font-size: $small-font-size;
       color: $color-gray;
+    }
+  }
+  &__days {
+    label {
+      margin-bottom: 4px;
+      font-weight: 300;
+      font-size: $base-font-size;
+    }
+
+    small {
+      font-size: 12px;
+      display: block;
+      flex: 1;
+    }
+    & > div {
+      display: flex;
+      padding: 10px 0;
+      gap: 5px;
+      button {
+        padding: 3px 8px;
+        font-size: 12px;
+      }
     }
   }
 
