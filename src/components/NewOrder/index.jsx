@@ -16,36 +16,43 @@ export const DELIVERY_DAYS = [
     label: "LUN",
     value: "lunes",
     full: "lunes",
+    index: 0,
   },
   {
     label: "MAR",
     value: "martes",
     full: "martes",
+    index: 1,
   },
   {
     label: "MIE",
     value: "miercoles",
     full: "miercoles",
+    index: 2,
   },
   {
     label: "JUE",
     value: "jueves",
     full: "jueves",
+    index: 3,
   },
   {
     label: "VIE",
     value: "viernes",
     full: "viernes",
+    index: 4,
   },
   {
     label: "SAB",
     value: "sabado",
     full: "sabado",
+    index: 5,
   },
   {
     label: "DOM",
     value: "domingo",
     full: "domingo",
+    index: 6
   },
 ];
 

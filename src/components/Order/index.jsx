@@ -40,6 +40,16 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
     return fullDay.label;
   }, []);
 
+  const getOrderDaysOrdered = useCallback(() => {
+    const indexes = DELIVERY_DAYS.filter((d) =>
+      order.days_to_be_delivered.includes(d.full)
+    );
+
+    const ordered = indexes.sort((a, b) => a.index - b.index);
+
+    return ordered.map((d) => d.value);
+  }, []);
+
   return (
     <div className={mainClass + " animate__animated animate__fadeIn"}>
       <div
@@ -88,7 +98,7 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
         <div className={mainClass + "__days"}>
           <label>Dias de entrega</label>
           <div>
-            {order.days_to_be_delivered.map((day) => (
+            {getOrderDaysOrdered().map((day) => (
               <Button onClick={() => {}} key={day} variant={"accent"}>
                 {getDay(day)}
               </Button>
