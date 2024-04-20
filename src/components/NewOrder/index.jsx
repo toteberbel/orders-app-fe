@@ -27,7 +27,7 @@ export const DELIVERY_DAYS = [
   {
     label: "MIE",
     value: "miercoles",
-    full: "miercoles",
+    full: "miércoles",
     index: 2,
   },
   {
@@ -45,7 +45,7 @@ export const DELIVERY_DAYS = [
   {
     label: "SAB",
     value: "sabado",
-    full: "sabado",
+    full: "sábado",
     index: 5,
   },
   {
