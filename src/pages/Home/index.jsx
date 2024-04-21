@@ -23,7 +23,7 @@ const DAYS_OPTIONS = [
   ...DELIVERY_DAYS,
 ];
 const today = new Date().toLocaleDateString(undefined, { weekday: "long" });
-const todayOption = DAYS_OPTIONS.find((day) => day.value === today);
+const todayOption = DAYS_OPTIONS.find((day) => day.full === today);
 
 const Home = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(null);
@@ -107,7 +107,7 @@ const Home = () => {
     const days =
       daysFilter.value === "all"
         ? DELIVERY_DAYS.map((day) => day.value)
-        : [daysFilter.value];
+        : [daysFilter?.value];
 
     return orders.filter(
       (order) =>
@@ -185,8 +185,8 @@ const Home = () => {
       </div>
       <div className={mainClass + "__current-day"}>
         <p>
-          Pedidos para {daysFilter.value === "all" ? "" : "el día"}{" "}
-          <span> {daysFilter.full} </span>
+          Pedidos para {daysFilter?.value === "all" ? "" : "el día"}{" "}
+          <span> {daysFilter?.full} </span>
         </p>
       </div>
 
