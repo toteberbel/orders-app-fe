@@ -52,7 +52,7 @@ export const DELIVERY_DAYS = [
     label: "DOM",
     value: "domingo",
     full: "domingo",
-    index: 6
+    index: 6,
   },
 ];
 
@@ -177,14 +177,6 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
       validationErrors.empty = "Al menos un producto o nota es requerido";
     }
 
-    const productWithZeroQuantity = Object.keys(order.products).some(
-      (key) => !order.products[key].quantity
-    );
-
-    if (productWithZeroQuantity) {
-      validationErrors.invalidProduct = "La cantidad debe ser mayor a 0";
-    }
-
     handleError(validationErrors);
 
     return {
@@ -264,8 +256,6 @@ const NewOrder = ({ orderToEdit, handleClose, deliveries, onCreate }) => {
     });
     setShowSaveButton(true);
   };
-
-  console.log(order.deliveryDays, DELIVERY_DAYS.length);
 
   return (
     <BaseModal onClose={handleClose} size="xlarge" noPadding>

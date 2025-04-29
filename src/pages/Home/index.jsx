@@ -22,8 +22,15 @@ const DAYS_OPTIONS = [
   },
   ...DELIVERY_DAYS,
 ];
-const today = new Date().toLocaleDateString(undefined, { weekday: "long" });
-const todayOption = DAYS_OPTIONS.find((day) => day.full === today);
+
+// remove accents from the full name of the day
+const today = new Date()
+  .toLocaleDateString(undefined, { weekday: "long" })
+  .normalize("NFD") // Normalize to decomposed form
+  .replace(/[\u0300-\u036f]/g, "");
+
+const todayOption =
+  DAYS_OPTIONS.find((day) => day.full === today) || DAYS_OPTIONS[0];
 
 const Home = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(null);

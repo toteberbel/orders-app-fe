@@ -44,7 +44,8 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
     const indexes = DELIVERY_DAYS.filter(
       (d) =>
         order.days_to_be_delivered.includes(d.full) ||
-        order.days_to_be_delivered.includes(d.label)
+        order.days_to_be_delivered.includes(d.label) ||
+        order.days_to_be_delivered.includes(d.value)
     );
 
     const ordered = indexes.sort((a, b) => a.index - b.index);
