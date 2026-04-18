@@ -7,10 +7,12 @@ import { environment } from "../../../config/env";
 import Order from "../../components/Order";
 import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner";
-import { FileText } from "react-feather";
+import { FileText, BarChart2 } from "react-feather";
 import "animate.css";
 import TextField from "../../components/TextField";
 import SelectField from "../../components/SelectField";
+import Totals from "../../components/Totals";
+import Button from "../../components/Button";
 
 const mainClass = "home";
 
@@ -44,6 +46,7 @@ const Home = () => {
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);
 
   const [daysFilter, setDaysFilter] = useState(todayOption);
+  const [showTotals, setShowTotals] = useState(false);
 
   useEffect(() => {
     getDeliveries();
@@ -87,6 +90,20 @@ const Home = () => {
     setLoading(false);
   };
 
+  const onToggleActive = async (orderId, active) => {
+    setLoading(true);
+    try {
+      await axios.put(environment.apiUrl + `/orders/${orderId}/active`, {
+        active,
+      });
+      getOrders();
+      toast.success("Orden actualizada");
+    } catch (error) {
+      toast.error("Error actualizando la orden");
+    }
+    setLoading(false);
+  };
+
   const handleOrderToEdit = (order) => {
     const items = {};
     order.order_items.forEach((item) => {
@@ -126,6 +143,9 @@ const Home = () => {
 
   return (
     <div className={mainClass}>
+      {showTotals && (
+        <Totals orders={orders} handleClose={() => setShowTotals(false)} />
+      )}
       {(showNewOrderModal || orderToEdit) && (
         <NewOrder
           deliveries={deliveries}
@@ -177,6 +197,16 @@ const Home = () => {
                 }}
               />
             </div>
+
+            <div className={mainClass + "__totals-action"}>
+              <Button
+                variant="secondary"
+                iconBefore={BarChart2}
+                onClick={() => setShowTotals(true)}
+              >
+                Ver totales
+              </Button>
+            </div>
           </div>
         ) : null}
 
@@ -185,6 +215,7 @@ const Home = () => {
             order={order}
             key={order.id}
             onDelete={onDeleteOrder}
+            onToggleActive={onToggleActive}
             handleEditOrder={handleOrderToEdit}
             loading={loading}
           />

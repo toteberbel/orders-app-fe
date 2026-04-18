@@ -73,6 +73,44 @@
     background-color: $color-gray-disabled;
   }
 
+  &--inactive {
+    background-color: $color-gray-background;
+    filter: grayscale(1);
+
+    .order__header {
+      background-color: $color-gray;
+    }
+
+    .order__content {
+      text-decoration: line-through;
+      text-decoration-color: $color-gray;
+    }
+  }
+
+  &__inactive-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: $color-distructive;
+    color: #fff;
+    font-weight: 700;
+    font-size: $small-font-size;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 6px 10px;
+    border-radius: 12px 12px 0 0;
+
+    svg {
+      width: $small-icon-size;
+      height: $small-icon-size;
+    }
+
+    & + .order__header {
+      border-radius: 0;
+    }
+  }
+
   &__days {
     label {
       margin-bottom: 4px;

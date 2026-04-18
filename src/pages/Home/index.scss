@@ -51,6 +51,11 @@
     gap: 10px;
   }
 
+  &__totals-action {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   &__current-day {
     background-color: #CDEAFF;
     z-index: 100;

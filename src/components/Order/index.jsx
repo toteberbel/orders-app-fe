@@ -1,6 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
 import "./index.scss";
-import { Edit3, MoreHorizontal, Trash2 } from "react-feather";
+import {
+  Edit3,
+  MoreHorizontal,
+  Trash2,
+  Eye,
+  EyeOff,
+  AlertTriangle,
+} from "react-feather";
 import { Popover } from "react-tiny-popover";
 import BasicMenuList from "../BasicMenuList";
 import Button from "../Button";
@@ -8,8 +15,10 @@ import { DELIVERY_DAYS } from "../NewOrder";
 
 const mainClass = "order";
 
-const Order = ({ order, handleEditOrder, onDelete, loading }) => {
+const Order = ({ order, handleEditOrder, onDelete, onToggleActive, loading }) => {
   const [showMenu, setShowMenu] = useState(false);
+
+  const isActive = order.active !== false;
 
   const MENUS = useMemo(
     () => [
@@ -19,6 +28,14 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
         onClick: () => {
           setShowMenu(false);
           handleEditOrder(order);
+        },
+      },
+      {
+        label: isActive ? "Desactivar" : "Activar",
+        icon: isActive ? EyeOff : Eye,
+        onClick: () => {
+          setShowMenu(false);
+          onToggleActive(order.id, !isActive);
         },
       },
       {
@@ -32,7 +49,7 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
       },
     ],
 
-    [order]
+    [order, isActive]
   );
 
   const getDay = useCallback((day) => {
@@ -54,7 +71,17 @@ const Order = ({ order, handleEditOrder, onDelete, loading }) => {
   }, []);
 
   return (
-    <div className={mainClass + " animate__animated animate__fadeIn"}>
+    <div
+      className={`${mainClass} animate__animated animate__fadeIn ${
+        !isActive ? mainClass + "--inactive" : ""
+      }`}
+    >
+      {!isActive && (
+        <div className={mainClass + "__inactive-banner"}>
+          <AlertTriangle />
+          <span>No preparar</span>
+        </div>
+      )}
       <div
         className={`${mainClass}__header ${
           loading ? mainClass + "__loading" : ""
