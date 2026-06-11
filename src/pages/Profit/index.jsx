@@ -105,7 +105,7 @@ const Profit = () => {
       // every product shares the same price; take the highest just in case
       const currentPrice = Math.max(
         0,
-        ...response.data.map((product) => Number(product.price) || 0)
+        ...response.data.map((product) => Number(product.price) || 0),
       );
       setSavedPrice(currentPrice);
       setPrice(currentPrice ? String(currentPrice) : "");
@@ -132,7 +132,7 @@ const Profit = () => {
     const dayOrders = orders.filter(
       (order) =>
         order.active !== false &&
-        order.days_to_be_delivered?.includes(selectedDay.value)
+        order.days_to_be_delivered?.includes(selectedDay.value),
     );
 
     let totalKg = 0;
@@ -165,13 +165,13 @@ const Profit = () => {
         ...row,
         subtotal: row.quantity * currentPrice,
       })),
-    [dailySales, currentPrice]
+    [dailySales, currentPrice],
   );
 
   const totalRevenue = salesRows.reduce((acc, row) => acc + row.subtotal, 0);
   const totalCosts = costs.reduce(
     (acc, cost) => acc + dailyCostAmount(cost),
-    0
+    0,
   );
   const totalProfit = totalRevenue - totalCosts;
 
@@ -192,7 +192,12 @@ const Profit = () => {
 
   const onAddCost = async () => {
     const amount = Number(newCost.amount);
-    if (!newCost.name.trim() || !newCost.amount || isNaN(amount) || amount < 0) {
+    if (
+      !newCost.name.trim() ||
+      !newCost.amount ||
+      isNaN(amount) ||
+      amount < 0
+    ) {
       toast.error("Ingresá un nombre y un monto válido");
       return;
     }
@@ -329,8 +334,8 @@ const Profit = () => {
           <section className={mainClass + "__section"}>
             <h3>Precio del pan</h3>
             <p className={mainClass + "__hint"}>
-              Un solo precio por kg para todas las variedades. Los productos
-              que se venden por unidad no se incluyen en el cálculo.
+              Un solo precio por kg para todas las variedades. Los productos que
+              se venden por unidad no se incluyen en el cálculo.
             </p>
 
             <div className={mainClass + "__price"}>
@@ -455,9 +460,7 @@ const Profit = () => {
               </div>
             ) : (
               <table
-                className={
-                  mainClass + "__table " + mainClass + "__costs-table"
-                }
+                className={mainClass + "__table " + mainClass + "__costs-table"}
               >
                 <thead>
                   <tr>
@@ -505,32 +508,13 @@ const Profit = () => {
                                 }))
                               }
                             />
-                            <select
-                              className={mainClass + "__edit-select"}
-                              value={editingDraft.period.value}
-                              onChange={(e) =>
-                                setEditingDraft((prev) => ({
-                                  ...prev,
-                                  period:
-                                    COST_PERIODS.find(
-                                      (p) => p.value === e.target.value
-                                    ) || COST_PERIODS[0],
-                                }))
-                              }
-                            >
-                              {COST_PERIODS.map((p) => (
-                                <option key={p.value} value={p.value}>
-                                  {p.label}
-                                </option>
-                              ))}
-                            </select>
                           </td>
                           <td>
                             {formatMoney(
                               dailyCostAmount({
                                 amount: Number(editingDraft.amount) || 0,
                                 period: editingDraft.period.value,
-                              })
+                              }),
                             )}
                           </td>
                           <td>
@@ -561,10 +545,14 @@ const Profit = () => {
                       <tr key={cost.id}>
                         <td>{cost.name}</td>
                         <td>
-                          {formatMoney(cost.amount)}
-                          <span className={mainClass + "__period"}>
-                            {cost.period === "mensual" ? "/mes" : "/día"}
-                          </span>
+                          {cost.period === "mensual" && (
+                            <>
+                              {formatMoney(cost.amount)}
+                              <div className={mainClass + "__period"}>
+                                Mensual
+                              </div>
+                            </>
+                          )}
                         </td>
                         <td>{formatMoney(dailyCostAmount(cost))}</td>
                         <td>
