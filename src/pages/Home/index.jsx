@@ -7,7 +7,8 @@ import { environment } from "../../../config/env";
 import Order from "../../components/Order";
 import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner";
-import { FileText, BarChart2 } from "react-feather";
+import { FileText, BarChart2, DollarSign } from "react-feather";
+import { useNavigate } from "react-router-dom";
 import "animate.css";
 import TextField from "../../components/TextField";
 import SelectField from "../../components/SelectField";
@@ -35,6 +36,7 @@ const todayOption =
   DAYS_OPTIONS.find((day) => day.full === today) || DAYS_OPTIONS[0];
 
 const Home = () => {
+  const navigate = useNavigate();
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [deliveries, setDeliveries] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -199,6 +201,13 @@ const Home = () => {
             </div>
 
             <div className={mainClass + "__totals-action"}>
+              <Button
+                variant="secondary"
+                iconBefore={DollarSign}
+                onClick={() => navigate("/ganancias")}
+              >
+                Ganancias
+              </Button>
               <Button
                 variant="secondary"
                 iconBefore={BarChart2}
