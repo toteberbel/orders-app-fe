@@ -113,6 +113,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: $base-font-size;
+    table-layout: fixed;
 
     th {
       text-align: left;
@@ -127,11 +128,40 @@
       padding: 8px 6px;
       border-bottom: 1px solid $color-gray-darken;
       text-transform: capitalize;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     tfoot td {
       border-bottom: none;
       font-weight: 600;
+    }
+  }
+
+  &__costs-table {
+    th,
+    td {
+      // four columns on a narrow mobile viewport: name | monto | por día | actions
+      &:nth-child(1) {
+        width: 32%;
+      }
+      &:nth-child(2) {
+        width: 30%;
+      }
+      &:nth-child(3) {
+        width: 24%;
+      }
+      &:nth-child(4) {
+        width: 14%;
+      }
+    }
+
+    // money columns stay on a single line — amount + period suffix together
+    td:nth-child(2),
+    td:nth-child(3) {
+      white-space: nowrap;
+      overflow-wrap: normal;
+      word-break: normal;
     }
   }
 
@@ -167,21 +197,60 @@
     color: $color-gray-text;
     font-size: $small-font-size;
     margin-left: 2px;
+    white-space: nowrap;
   }
 
-  &__delete-cost {
+  &__row-actions {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  &__icon-action {
     background: none;
     border: none;
     padding: 4px;
     display: flex;
     align-items: center;
     cursor: pointer;
-    color: $color-distructive;
+    color: $color-primary-accent;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
 
     svg {
       width: $medium-icon-size;
       height: $medium-icon-size;
     }
+
+    &--danger {
+      color: $color-distructive;
+    }
+  }
+
+  &__edit-input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid $color-gray-borders;
+    border-radius: 6px;
+    font-size: $base-font-size;
+    box-sizing: border-box;
+
+    &--amount {
+      margin-bottom: 4px;
+    }
+  }
+
+  &__edit-select {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid $color-gray-borders;
+    border-radius: 6px;
+    font-size: $small-font-size;
+    background: $color-white;
   }
 
   &__empty {

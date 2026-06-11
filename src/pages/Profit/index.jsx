@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { PROFIT_AUTH_KEY } from "../../components/ProfitPasswordModal";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { ArrowLeft, Plus, Trash2 } from "react-feather";
+import { ArrowLeft, Check, Edit2, Plus, Trash2, X } from "react-feather";
 import { environment } from "../../../config/env";
 import { DELIVERY_DAYS } from "../../components/NewOrder";
 import TextField from "../../components/TextField";
@@ -75,6 +75,10 @@ const Profit = () => {
     period: COST_PERIODS[0],
   });
   const [addingCost, setAddingCost] = useState(false);
+
+  const [editingCostId, setEditingCostId] = useState(null);
+  const [editingDraft, setEditingDraft] = useState(null);
+  const [savingEdit, setSavingEdit] = useState(false);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -212,11 +216,61 @@ const Profit = () => {
   const onDeleteCost = async (costId) => {
     try {
       await axios.delete(environment.apiUrl + `/costs/${costId}`);
+      if (editingCostId === costId) {
+        setEditingCostId(null);
+        setEditingDraft(null);
+      }
       await getCosts();
     } catch (error) {
       console.error(error);
       toast.error("Error eliminando el costo");
     }
+  };
+
+  const onStartEditCost = (cost) => {
+    setEditingCostId(cost.id);
+    setEditingDraft({
+      name: cost.name,
+      amount: String(cost.amount ?? ""),
+      period:
+        COST_PERIODS.find((p) => p.value === cost.period) || COST_PERIODS[0],
+    });
+  };
+
+  const onCancelEditCost = () => {
+    setEditingCostId(null);
+    setEditingDraft(null);
+  };
+
+  const onSaveEditCost = async () => {
+    if (!editingDraft) return;
+
+    const amount = Number(editingDraft.amount);
+    if (
+      !editingDraft.name.trim() ||
+      editingDraft.amount === "" ||
+      isNaN(amount) ||
+      amount < 0
+    ) {
+      toast.error("Ingresá un nombre y un monto válido");
+      return;
+    }
+
+    setSavingEdit(true);
+    try {
+      await axios.patch(environment.apiUrl + `/costs/${editingCostId}`, {
+        name: editingDraft.name.trim(),
+        amount,
+        period: editingDraft.period.value,
+      });
+      setEditingCostId(null);
+      setEditingDraft(null);
+      await getCosts();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error actualizando el costo");
+    }
+    setSavingEdit(false);
   };
 
   return (
@@ -400,7 +454,11 @@ const Profit = () => {
                 Todavía no agregaste costos.
               </div>
             ) : (
-              <table className={mainClass + "__table"}>
+              <table
+                className={
+                  mainClass + "__table " + mainClass + "__costs-table"
+                }
+              >
                 <thead>
                   <tr>
                     <th>Costo</th>
@@ -410,27 +468,131 @@ const Profit = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {costs.map((cost) => (
-                    <tr key={cost.id}>
-                      <td>{cost.name}</td>
-                      <td>
-                        {formatMoney(cost.amount)}
-                        <span className={mainClass + "__period"}>
-                          {cost.period === "mensual" ? "/mes" : "/día"}
-                        </span>
-                      </td>
-                      <td>{formatMoney(dailyCostAmount(cost))}</td>
-                      <td>
-                        <button
-                          className={mainClass + "__delete-cost"}
-                          onClick={() => onDeleteCost(cost.id)}
-                          aria-label={`Eliminar ${cost.name}`}
-                        >
-                          <Trash2 />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {costs.map((cost) => {
+                    const isEditing = editingCostId === cost.id;
+
+                    if (isEditing) {
+                      return (
+                        <tr key={cost.id}>
+                          <td>
+                            <input
+                              className={mainClass + "__edit-input"}
+                              value={editingDraft.name}
+                              onChange={(e) =>
+                                setEditingDraft((prev) => ({
+                                  ...prev,
+                                  name: e.target.value,
+                                }))
+                              }
+                            />
+                          </td>
+                          <td>
+                            <input
+                              className={
+                                mainClass +
+                                "__edit-input " +
+                                mainClass +
+                                "__edit-input--amount"
+                              }
+                              type="number"
+                              min={0}
+                              step="0.01"
+                              value={editingDraft.amount}
+                              onChange={(e) =>
+                                setEditingDraft((prev) => ({
+                                  ...prev,
+                                  amount: e.target.value,
+                                }))
+                              }
+                            />
+                            <select
+                              className={mainClass + "__edit-select"}
+                              value={editingDraft.period.value}
+                              onChange={(e) =>
+                                setEditingDraft((prev) => ({
+                                  ...prev,
+                                  period:
+                                    COST_PERIODS.find(
+                                      (p) => p.value === e.target.value
+                                    ) || COST_PERIODS[0],
+                                }))
+                              }
+                            >
+                              {COST_PERIODS.map((p) => (
+                                <option key={p.value} value={p.value}>
+                                  {p.label}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td>
+                            {formatMoney(
+                              dailyCostAmount({
+                                amount: Number(editingDraft.amount) || 0,
+                                period: editingDraft.period.value,
+                              })
+                            )}
+                          </td>
+                          <td>
+                            <div className={mainClass + "__row-actions"}>
+                              <button
+                                className={mainClass + "__icon-action"}
+                                onClick={onSaveEditCost}
+                                disabled={savingEdit}
+                                aria-label="Guardar cambios"
+                              >
+                                <Check />
+                              </button>
+                              <button
+                                className={mainClass + "__icon-action"}
+                                onClick={onCancelEditCost}
+                                disabled={savingEdit}
+                                aria-label="Cancelar"
+                              >
+                                <X />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }
+
+                    return (
+                      <tr key={cost.id}>
+                        <td>{cost.name}</td>
+                        <td>
+                          {formatMoney(cost.amount)}
+                          <span className={mainClass + "__period"}>
+                            {cost.period === "mensual" ? "/mes" : "/día"}
+                          </span>
+                        </td>
+                        <td>{formatMoney(dailyCostAmount(cost))}</td>
+                        <td>
+                          <div className={mainClass + "__row-actions"}>
+                            <button
+                              className={mainClass + "__icon-action"}
+                              onClick={() => onStartEditCost(cost)}
+                              aria-label={`Editar ${cost.name}`}
+                            >
+                              <Edit2 />
+                            </button>
+                            <button
+                              className={
+                                mainClass +
+                                "__icon-action " +
+                                mainClass +
+                                "__icon-action--danger"
+                              }
+                              onClick={() => onDeleteCost(cost.id)}
+                              aria-label={`Eliminar ${cost.name}`}
+                            >
+                              <Trash2 />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
                 <tfoot>
                   <tr>
