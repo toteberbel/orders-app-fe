@@ -14,6 +14,7 @@ import TextField from "../../components/TextField";
 import SelectField from "../../components/SelectField";
 import Totals from "../../components/Totals";
 import Button from "../../components/Button";
+import ProfitPasswordModal from "../../components/ProfitPasswordModal";
 
 const mainClass = "home";
 
@@ -49,6 +50,7 @@ const Home = () => {
 
   const [daysFilter, setDaysFilter] = useState(todayOption);
   const [showTotals, setShowTotals] = useState(false);
+  const [showProfitPassword, setShowProfitPassword] = useState(false);
 
   useEffect(() => {
     getDeliveries();
@@ -148,6 +150,15 @@ const Home = () => {
       {showTotals && (
         <Totals orders={orders} handleClose={() => setShowTotals(false)} />
       )}
+      {showProfitPassword && (
+        <ProfitPasswordModal
+          handleClose={() => setShowProfitPassword(false)}
+          onSuccess={() => {
+            setShowProfitPassword(false);
+            navigate("/ganancias");
+          }}
+        />
+      )}
       {(showNewOrderModal || orderToEdit) && (
         <NewOrder
           deliveries={deliveries}
@@ -204,7 +215,7 @@ const Home = () => {
               <Button
                 variant="secondary"
                 iconBefore={DollarSign}
-                onClick={() => navigate("/ganancias")}
+                onClick={() => setShowProfitPassword(true)}
               >
                 Ganancias
               </Button>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { PROFIT_AUTH_KEY } from "../../components/ProfitPasswordModal";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ArrowLeft, Plus, Trash2 } from "react-feather";
@@ -39,7 +40,8 @@ const formatMoney = (value) =>
   Number(value || 0).toLocaleString("es-AR", {
     style: "currency",
     currency: "ARS",
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
   });
 
 const formatQuantity = (value, unit) => {
@@ -51,6 +53,10 @@ const formatQuantity = (value, unit) => {
 
 const Profit = () => {
   const navigate = useNavigate();
+
+  if (sessionStorage.getItem(PROFIT_AUTH_KEY) !== "1") {
+    return <Navigate to="/" replace />;
+  }
 
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
